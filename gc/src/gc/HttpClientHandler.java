@@ -20,7 +20,6 @@ import org.msgpack.MessagePack;
 import common.AppImpl.RequestReadException;
 import common.AppImpl.RequestUriException;
 import common.AppImpl.ResponseNullException;
-
 import gs.packet.PacketGetConfig.GetConfigResponse;
 
 @Sharable
@@ -45,6 +44,7 @@ public class HttpClientHandler extends SimpleChannelInboundHandler<HttpObject> {
 				MessagePack msgpack = new MessagePack();
 
 				if (uri.equalsIgnoreCase("/getconfig")) {
+					@SuppressWarnings("unused")
 					GetConfigResponse response = msgpack.read(content.nioBuffer(), GetConfigResponse.class);
 					response = null;
 				}

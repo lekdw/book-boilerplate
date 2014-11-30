@@ -1,4 +1,5 @@
 package common;
+
 import java.io.File;
 import java.net.InetSocketAddress;
 import java.util.ArrayList;
@@ -7,6 +8,7 @@ import java.util.Map.Entry;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
 import org.apache.commons.cli.HelpFormatter;
@@ -17,21 +19,27 @@ import org.apache.commons.cli.PosixParser;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import org.msgpack.annotation.Message;
+
 @SuppressWarnings("unused")
 public class AppConfig {
-	static public class info {
+	@Message
+	static public class Info {
+		@Message
 		static public class NodeInfo {
 			public String url = null;
 			public String ip = null;
 			public int port = 0;
 		}
 
+		@Message
 		static public class AppInfo {
 			public int id = 0;
 			public String name = null;
 			public String version = null;
 		}
 
+		@Message
 		static public class HttpServerInfo {
 			public String ip = null;
 			public int port = 0;
@@ -40,12 +48,22 @@ public class AppConfig {
 			public int readTimeout = 0;
 		}
 
+		@Message
 		static public class CouchbaseInfo {
-			public NodeInfo[] nodes = null;
+			public String[] urls = null;
+			public String bucket = null;
+			public String designDoc = null;
+			public int opTimeout = 0;
+			public int viewTimeout = 0;
+			public int viewWorkerSize = 0;
+			public int viewConnsPerNode = 0;
 		}
 
+		@Message
 		static public class RedisInfo {
 			public NodeInfo[] nodes = null;
+			public int connsPerNode = 0;
+			public String messageChannel = null;
 		}
 		
 		public AppInfo app = null;
@@ -57,7 +75,7 @@ public class AppConfig {
 	private static final Logger systemLogger = LoggerFactory.getLogger("system");
 	private static final AppConfig instance = new AppConfig();
 
-	public info info;	
+	public Info info;	
 	
 	public static AppConfig get() {
 		return instance;
@@ -88,7 +106,7 @@ public class AppConfig {
 				ObjectMapper mapper = new ObjectMapper();
 				mapper.configure(JsonParser.Feature.ALLOW_COMMENTS, true);
 
-				info = mapper.readValue(new File(propertyFile), info.class);
+				info = mapper.readValue(new File(propertyFile), Info.class);
 
 				return true;
 			}

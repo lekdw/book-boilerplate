@@ -1,0 +1,35 @@
+{
+	"app":{
+		"id":1,
+		"name":"book-gs1",
+		"version":"0.0.1"
+	},
+	"httpServer":{
+		"ip":"127.0.0.1",
+		"port":1005,
+		"bossThread":4,
+		"workerThread":20,
+		"readTimeout":5
+	},
+	"couchbase":{
+		"urls":[
+			"http://127.0.0.1:8091/pools"
+		],
+		"bucket":"default",
+		"designDoc":"game",
+		"opTimeout":3000,
+		"viewTimeout":5000,
+		"viewWorkerSize":50,
+		"viewConnsPerNode":20
+	},
+	"redis":{
+		"nodes":[
+			{
+				"ip":"127.0.0.1",
+				"port":6379
+			}
+		],
+		"messageChannel":"cms:channel",
+		"connsPerNode":20
+	}
+}

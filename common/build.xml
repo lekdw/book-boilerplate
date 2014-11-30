@@ -4,6 +4,7 @@
 	  	<zip destfile="external.jar">
 	  	    <zipgroupfileset dir="lib" includes="*.jar"/>
 	  	</zip>
+		<copy file="external.jar" todir="../gc/lib"/>
 		<copy file="external.jar" todir="../gs/lib"/>
 	</target>
 	<target name="pacakge-common-jar">

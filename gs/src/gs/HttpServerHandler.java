@@ -1,4 +1,5 @@
 package gs;
+
 import java.io.IOException;
 
 import org.slf4j.Logger;
@@ -15,41 +16,24 @@ import io.netty.handler.codec.http.DefaultFullHttpRequest;
 import io.netty.handler.codec.http.DefaultFullHttpResponse;
 import io.netty.handler.codec.http.FullHttpResponse;
 import io.netty.handler.codec.http.HttpMethod;
-import io.netty.handler.codec.http.HttpRequest;
 import io.netty.handler.timeout.ReadTimeoutException;
 
+import org.msgpack.MessagePack;
+
+import common.AppImpl.RequestReadException;
+import common.AppImpl.RequestUriException;
+import common.AppImpl.ResponseNullException;
+
+import gs.packet.PacketBase;
+import gs.packet.PacketGetConfig;
+import gs.packet.PacketGetConfig.GetConfigRequest;
+
 public class HttpServerHandler extends SimpleChannelInboundHandler<Object> {
-	@SuppressWarnings("serial")
-	public static class RequestReadException extends Exception {
-		public RequestReadException(String message) {
-			super(message);
-		}
-	}
-
-	@SuppressWarnings("serial")
-	public static class RequestUriException extends Exception {
-		public RequestUriException(String message) {
-			super(message);
-		}
-	}
-
-	@SuppressWarnings("serial")
-	public static class RequestInvalidFieldException extends Exception {
-		public RequestInvalidFieldException(String message) {
-			super(message);
-		}
-	}
-
-	@SuppressWarnings("serial")
-	public static class ResponseNullException extends Exception {
-		public ResponseNullException(String message) {
-			super(message);
-		}
-	}
-
 	private static final Logger debuglogger = LoggerFactory.getLogger("rootLogger");
 	private static final Logger errorLogger = LoggerFactory.getLogger("error");
 
+	private static final int getconfig = "/getconfig".hashCode();
+	
 	private String uri = "";
 	
 	@Override
@@ -58,28 +42,66 @@ public class HttpServerHandler extends SimpleChannelInboundHandler<Object> {
 			ctx.close().sync();
 		}
 		
-		HttpRequest request = (HttpRequest) msg;
+		DefaultFullHttpRequest httpRequest = (DefaultFullHttpRequest)msg;
 
-		if (!request.getDecoderResult().isSuccess()) {
+		if (!httpRequest.getDecoderResult().isSuccess()) {
 			ctx.close().sync();
 			return;
 		}
 
-		if (request.getMethod() != HttpMethod.POST) {
+		if (httpRequest.getMethod() != HttpMethod.POST) {
 			ctx.close().sync();
 			return;
 		}
 
-		uri = request.getUri();
+		ByteBuf requestContent = httpRequest.content();
+		
+		if (!requestContent.isReadable()) {
+			ctx.close().sync();
+			return;
+		}
+		
+		uri = httpRequest.getUri();
 
-		ByteBuf content = null;
+		PacketBase packet = null;
 
-		FullHttpResponse response = new DefaultFullHttpResponse(HTTP_1_1, OK, content);
+		try {
+			MessagePack msgpack = new MessagePack();
+
+			int uriHashCode = uri.hashCode();
+
+			if (uriHashCode == getconfig) {
+				GetConfigRequest request = msgpack.read(requestContent.nioBuffer(), GetConfigRequest.class);
+				packet = new PacketGetConfig(request);
+			} else {
+				throw new RequestUriException("");
+			}
+		} catch (Exception e) {
+			throw new RequestReadException(e.getMessage());
+		}
+
+		if (!packet.processRequest()) {
+		}
+
+		ByteBuf responseContent = null;
+
+		try {
+			responseContent = packet.createResponse(ctx);
+			
+			if (responseContent == null)
+				throw new ResponseNullException("");					
+		} catch (Exception e) {
+			throw e;
+		}
+
+		FullHttpResponse response = new DefaultFullHttpResponse(HTTP_1_1, OK, responseContent);
         response.headers().set(CONTENT_TYPE, "text/plain; charset=UTF-8");
-        response.headers().set(CONTENT_LENGTH, content.readableBytes());
+        response.headers().set(CONTENT_LENGTH, responseContent.readableBytes());
         response.headers().set(LOCATION, uri);
 		
 		ctx.writeAndFlush(response).addListener(ChannelFutureListener.CLOSE);
+		
+		debuglogger.debug("{\"action\":\"{}\", \"tag\":\"response\"}", uri.replace("/", ""));
 	}
 
 	@Override
@@ -99,9 +121,6 @@ public class HttpServerHandler extends SimpleChannelInboundHandler<Object> {
 		}
 		else if (cause instanceof RequestUriException) {
 			errorLogger.error("{\"action\":\"{}\", \"tag\":\"exception\", \"result\":\"RequestUriException\"}", uriName);
-		}
-		else if (cause instanceof RequestInvalidFieldException) {
-			errorLogger.error("{\"action\":\"{}\", \"tag\":\"exception\", \"result\":\"RequestInvalidFieldException\"}", uriName);
 		}
 		else if (cause instanceof ResponseNullException) {
 			errorLogger.error("{\"action\":\"{}\", \"tag\":\"exception\", \"result\":\"ResponseNullException\"}", uriName);

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<project basedir="." default="package-external-jar" name="common">
+	<target description="" name="package-external-jar" depends="pacakge-common-jar">
+	  	<zip destfile="external.jar">
+	  	    <zipgroupfileset dir="lib" includes="*.jar"/>
+	  	</zip>
+		<copy file="external.jar" todir="../gs/lib"/>
+	</target>
+	<target name="pacakge-common-jar">
+		<jar destfile="lib/common.jar">
+			<fileset dir="bin" />
+			<fileset dir="src" includes="**/*.java"/>
+		</jar>
+	</target>
+</project>

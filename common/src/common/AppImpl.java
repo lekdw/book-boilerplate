@@ -17,7 +17,7 @@ public abstract class AppImpl {
 		});
 		
 		// 실행 인자로 지정된 설정파일을 읽어들인다.
-		AppConfiguration.get().readFile(args);
+		AppConfig.get().readFile(args);
 		
 		// 어플리케이션이 Http 서버 속성(AppHttpServerHandler 인터페이스)을 갖는다면
 		if (this instanceof AppHttpServerHandler) {
@@ -30,10 +30,10 @@ public abstract class AppImpl {
 				public void run() {
 					// Http 서버를 시작한다.
 					AppHttpServerImpl.get().start((AppHttpServerHandler)theApp,
-							AppConfiguration.get().serverIp,
-							AppConfiguration.get().serverPort,
-							AppConfiguration.get().bossThreadCount,
-							AppConfiguration.get().workerThreadCount);
+							AppConfig.get().info.httpServer.ip,
+							AppConfig.get().info.httpServer.port,
+							AppConfig.get().info.httpServer.bossThread,
+							AppConfig.get().info.httpServer.workerThread);
 				}
 			}).start();
 		}

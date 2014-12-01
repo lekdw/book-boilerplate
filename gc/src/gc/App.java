@@ -1,6 +1,7 @@
 package gc;
 
 import gs.packet.PacketGetConfig.GetConfigRequest;
+import gs.packet.PacketLoadGame.LoadGameRequest;
 
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -56,8 +57,9 @@ public class App {
 		pool.setBlockWhenExhausted(true);
 		
 		for (int i = 0; i < count; i++) {
-			final GetConfigRequest request = new GetConfigRequest();
+			final LoadGameRequest request = new LoadGameRequest();
 			request.channelId = String.valueOf(now + i);
+			request.nickName = "사용자";
 			
 			try {
 				final AppHttpClientImpl client = pool.borrowObject();
@@ -68,7 +70,7 @@ public class App {
 							System.out.printf("%d, %d, %d\n", order++, pool.getCreatedCount(), pool.getNumActive());
 		
 							try {
-								client.request(new URI("http://127.0.0.1:1005/getconfig"), request.create());
+								client.request(new URI("http://127.0.0.1:1005/loadgame"), request.create());
 							} catch (URISyntaxException e) {
 								e.printStackTrace();
 							} finally {

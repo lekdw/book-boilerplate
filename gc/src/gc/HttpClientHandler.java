@@ -21,6 +21,7 @@ import common.AppImpl.RequestReadException;
 import common.AppImpl.RequestUriException;
 import common.AppImpl.ResponseNullException;
 import gs.packet.PacketGetConfig.GetConfigResponse;
+import gs.packet.PacketLoadGame.LoadGameResponse;
 
 @Sharable
 public class HttpClientHandler extends SimpleChannelInboundHandler<HttpObject> {
@@ -46,6 +47,10 @@ public class HttpClientHandler extends SimpleChannelInboundHandler<HttpObject> {
 				if (uri.equalsIgnoreCase("/getconfig")) {
 					@SuppressWarnings("unused")
 					GetConfigResponse response = msgpack.read(content.nioBuffer(), GetConfigResponse.class);
+					response = null;
+				} else if (uri.equalsIgnoreCase("/loadgame")) {
+					@SuppressWarnings("unused")
+					LoadGameResponse response = msgpack.read(content.nioBuffer(), LoadGameResponse.class);
 					response = null;
 				}
 			} catch (Exception e) {

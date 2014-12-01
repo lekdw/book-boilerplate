@@ -23,16 +23,18 @@ import org.msgpack.MessagePack;
 import common.AppImpl.RequestReadException;
 import common.AppImpl.RequestUriException;
 import common.AppImpl.ResponseNullException;
-
 import gs.packet.PacketBase;
 import gs.packet.PacketGetConfig;
 import gs.packet.PacketGetConfig.GetConfigRequest;
+import gs.packet.PacketLoadGame;
+import gs.packet.PacketLoadGame.LoadGameRequest;
 
 public class HttpServerHandler extends SimpleChannelInboundHandler<Object> {
 	private static final Logger debuglogger = LoggerFactory.getLogger("rootLogger");
 	private static final Logger errorLogger = LoggerFactory.getLogger("error");
 
 	private static final int getconfig = "/getconfig".hashCode();
+	private static final int loadgame = "/loadgame".hashCode();
 	
 	private String uri = "";
 	
@@ -73,6 +75,9 @@ public class HttpServerHandler extends SimpleChannelInboundHandler<Object> {
 			if (uriHashCode == getconfig) {
 				GetConfigRequest request = msgpack.read(requestContent.nioBuffer(), GetConfigRequest.class);
 				packet = new PacketGetConfig(request);
+			} else if (uriHashCode == loadgame) {
+				LoadGameRequest request = msgpack.read(requestContent.nioBuffer(), LoadGameRequest.class);
+				packet = new PacketLoadGame(request);
 			} else {
 				throw new RequestUriException("");
 			}

@@ -46,10 +46,6 @@
 		<property name="set hibernate.transaction.factory_class">org.hibernate.transaction.JDBCTransactionFactory</property>
 		<property name="current_session_context_class">thread</property>
 		
-		<!--
-		<mapping class="kr.co.gemplay.toyz.common.logic.model.Game"/>
-		<mapping class="kr.co.gemplay.toyz.common.logic.model.Stage"/>
-		<mapping class="kr.co.gemplay.toyz.common.logic.model.Party"/>
-		-->
+		<mapping class="common.model.Game"/>
 	</session-factory>
 </hibernate-configuration>

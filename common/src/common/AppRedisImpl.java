@@ -13,7 +13,7 @@ import common.AppConfig.Info.NodeInfo;
 
 public class AppRedisImpl {
 	private static final Logger systemLogger = LoggerFactory.getLogger("system");
-	private final static AppRedisImpl instance = new AppRedisImpl();
+	private static final AppRedisImpl instance = new AppRedisImpl();
 	
 	private int shardCount = 0;
 	private JedisPool[] pool = null;

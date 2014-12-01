@@ -22,6 +22,11 @@
 		"viewWorkerSize":50,
 		"viewConnsPerNode":20
 	},
+	"mysql":{
+		"sessionConfigs":[
+			"mysql_01.xml"
+		]
+	},
 	"redis":{
 		"nodes":[
 			{

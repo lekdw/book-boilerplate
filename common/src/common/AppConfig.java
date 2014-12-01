@@ -60,6 +60,11 @@ public class AppConfig {
 		}
 
 		@Message
+		static public class MySQLInfo {
+			public String[] sessionConfigs = null;
+		}
+
+		@Message
 		static public class RedisInfo {
 			public NodeInfo[] nodes = null;
 			public int connsPerNode = 0;
@@ -69,6 +74,7 @@ public class AppConfig {
 		public AppInfo app = null;
 		public HttpServerInfo httpServer = null;
 		public CouchbaseInfo couchbase = null;
+		public MySQLInfo mysql = null;
 		public RedisInfo redis = null;
 	}
 	

@@ -1,0 +1,55 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-configuration PUBLIC "-//Hibernate/Hibernate Configuration DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+
+<hibernate-configuration>
+	<session-factory>
+		<!--
+			Settings for a MySQL database (testing).
+ 		-->
+		<property name="dialect">org.hibernate.dialect.MySQL5InnoDBDialect </property>
+		<property name="connection.driver_class">com.mysql.jdbc.Driver</property>
+		<property name="connection.provider_class">org.hibernate.service.jdbc.connections.internal.C3P0ConnectionProvider</property>
+		<property name="connection.url">jdbc:mysql://127.0.0.1/gs_01</property>
+		<property name="connection.username">root</property>
+		<property name="connection.password">qwer1234</property>
+
+		<property name="hibernate.c3p0.acquire_increment">1</property>
+		<property name="hibernate.c3p0.max_statements">0</property>
+		<property name="hibernate.c3p0.timeout">0</property>
+		<property name="hibernate.c3p0.min_size">5</property>
+		<property name="hibernate.c3p0.max_size">20</property>
+		<property name="hibernate.c3p0.idle_test_period">300</property>
+		<property name="hibernate.c3p0.perferredTestQuery">select 1;</property>
+
+        <!-- Enable auto-commit mode for special cases (integration testing) -->
+		<property name="connection.autocommit">false</property>
+
+        <!-- Disable the second-level cache  -->
+		<property name="cache.provider_class">org.hibernate.cache.NoCacheProvider</property>
+		<property name="cache.use_query_cache">false</property>
+		<property name="cache.use_minimal_puts">false</property>
+
+        <!-- Print SQL to stdout, format it nicely  -->
+		<property name="show_sql">true</property>
+		<property name="format_sql">false</property>
+		<property name="use_sql_comments">false</property>
+
+		<!--
+			Drop and then re-create schema on SessionFactory build, for testing
+		-->
+		<property name="hbm2ddl.auto">create</property>
+		
+		<!--
+			Use thread-bound persistence context propagation, scoped to the
+			transaction
+		-->
+		<property name="set hibernate.transaction.factory_class">org.hibernate.transaction.JDBCTransactionFactory</property>
+		<property name="current_session_context_class">thread</property>
+		
+		<!--
+		<mapping class="kr.co.gemplay.toyz.common.logic.model.Game"/>
+		<mapping class="kr.co.gemplay.toyz.common.logic.model.Stage"/>
+		<mapping class="kr.co.gemplay.toyz.common.logic.model.Party"/>
+		-->
+	</session-factory>
+</hibernate-configuration>

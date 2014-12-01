@@ -102,6 +102,27 @@ public abstract class AppImpl {
 			}
 		}
 
+		// 어플리케이션이 MySQL 속성(AppMySQLHandler 인터페이스)을 갖는다면
+		if (this instanceof AppMySQLHandler) {
+			System.out.println("Support MySQL!");
+
+			try {
+				AppMySQLImpl.get().start();
+				
+				// 알림!
+				((AppMySQLHandler)theApp).onMySQLStart();
+				
+				if (isFailed) {
+					AppMySQLImpl.get().stop();
+					return false;
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+				AppMySQLImpl.get().stop();
+				return false;
+			}
+		}
+
 		// 어플리케이션이 Redis 속성(AppRedisHandler 인터페이스)을 갖는다면
 		if (this instanceof AppRedisHandler) {
 			System.out.println("Support Redis!");
@@ -169,6 +190,7 @@ public abstract class AppImpl {
 	public void stop() {
 		AppHttpServerImpl.get().stop();
 		AppRedisImpl.get().stop();
+		AppMySQLImpl.get().stop();
 		AppCouchbaseImpl.get().stop();
 	}
 }

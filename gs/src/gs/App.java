@@ -4,10 +4,41 @@ import io.netty.channel.ChannelHandler;
 import common.AppCouchbaseHandler;
 import common.AppHttpServerHandler;
 import common.AppImpl;
+import common.AppMySQLHandler;
 import common.AppRedisHandler;
 
-public class App extends AppImpl implements AppCouchbaseHandler, AppRedisHandler, AppHttpServerHandler {
+public class App extends AppImpl implements AppCouchbaseHandler, AppMySQLHandler, AppRedisHandler, AppHttpServerHandler {
 	private static final App theApp = new App();
+	
+	//
+	// AppCouchbaseHandler 구현
+	//
+	@Override
+	public void onCouchbaseStart() {
+	}
+
+	@Override
+	public void onCouchbaseStop() {
+	}
+
+	@Override
+	public void onCouchbaseError() {
+	}
+	
+	//
+	// AppCouchbaseHandler 구현
+	//
+	@Override
+	public void onMySQLStart() {
+	}
+
+	@Override
+	public void onMySQLStop() {
+	}
+
+	@Override
+	public void onMySQLError() {
+	}
 
 	//
 	// AppRedisHandler 구현
@@ -27,22 +58,7 @@ public class App extends AppImpl implements AppCouchbaseHandler, AppRedisHandler
 	@Override
 	public void onRedisMessage(String channel, String message) {
 	}
-	
-	//
-	// AppCouchbaseHandler 구현
-	//
-	@Override
-	public void onCouchbaseStart() {
-	}
 
-	@Override
-	public void onCouchbaseStop() {
-	}
-
-	@Override
-	public void onCouchbaseError() {
-	}
-	
 	//
 	// AppHttpServerHandler 구현
 	//

@@ -1,10 +1,12 @@
-package common;
+package common.storage;
 
 import org.hibernate.*;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.*;
 import org.hibernate.service.ServiceRegistry;
 import org.slf4j.*;
+
+import common.AppConfig;
 
 public class AppMySQLImpl {
 	private static final int SHARD_COUNT = 10;

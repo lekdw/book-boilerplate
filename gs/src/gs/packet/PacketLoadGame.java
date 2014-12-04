@@ -13,10 +13,10 @@ import io.netty.channel.ChannelHandlerContext;
 
 import org.msgpack.annotation.Message;
 
-import common.AppCouchbaseImpl;
 import common.model.Game;
+import common.model.Mail;
 import common.model.Share;
-import common.model.Stage;
+import common.storage.AppCouchbaseImpl;
 
 public class PacketLoadGame extends PacketBase {
 	@Message
@@ -33,10 +33,11 @@ public class PacketLoadGame extends PacketBase {
 		public long now = 0L;
 		public Game game = null;
 		public Share share = null;
-		public Map<Integer, Stage> stages = new HashMap<Integer, Stage>();
+		public Map<Long, Mail> mails = new HashMap<Long, Mail>();
 	}
 
 	private final static int RESULT_LOAD_GAME_OK = 0;
+	@SuppressWarnings("unused")
 	private final static int RESULT_LOAD_GAME_FAIL = 1;
 
 	protected static Logger debugLogger = LoggerFactory.getLogger("rootLogger");

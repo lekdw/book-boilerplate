@@ -47,5 +47,6 @@
 		<property name="current_session_context_class">thread</property>
 		
 		<mapping class="common.model.Game"/>
+		<mapping class="common.model.Stage"/>
 	</session-factory>
 </hibernate-configuration>

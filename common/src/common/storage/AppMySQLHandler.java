@@ -1,4 +1,4 @@
-package common;
+package common.storage;
 
 public interface AppMySQLHandler {
 	public void onMySQLStart();

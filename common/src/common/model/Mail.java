@@ -4,7 +4,6 @@ import java.io.Serializable;
 
 import org.msgpack.annotation.Message;
 
-// key의 형식은 "mail:채널아이디:타임스탬프"를 갖는다. 
 @Message
 public class Mail implements Serializable {
 	private static final long serialVersionUID = -3483326931968686716L;

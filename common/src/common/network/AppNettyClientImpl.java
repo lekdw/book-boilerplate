@@ -1,4 +1,4 @@
-package common;
+package common.network;
 
 import java.net.URI;
 
@@ -17,7 +17,7 @@ import io.netty.handler.codec.http.HttpVersion;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class AppHttpClientImpl {
+public class AppNettyClientImpl {
 	public static interface AppHttpClientHandler {
 		public void onCompleteConnect();
 	};

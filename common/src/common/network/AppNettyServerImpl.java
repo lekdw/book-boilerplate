@@ -1,4 +1,4 @@
-package common;
+package common.network;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandler;
@@ -10,15 +10,15 @@ import io.netty.channel.socket.nio.NioServerSocketChannel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class AppHttpServerImpl {
+public class AppNettyServerImpl {
 	private static final Logger systemLogger = LoggerFactory.getLogger("system");
-	private static final AppHttpServerImpl instance = new AppHttpServerImpl();
+	private static final AppNettyServerImpl instance = new AppNettyServerImpl();
 	
-	public static AppHttpServerImpl get() {
+	public static AppNettyServerImpl get() {
 		return instance;
 	}
 	
-	public void start(AppHttpServerHandler serverHandler, String ip, int port, int bossThreadCount, int workerThreadCount) {
+	public void start(AppNettyServerHandler serverHandler, String ip, int port, int bossThreadCount, int workerThreadCount) {
 		systemLogger.info("Ip, Port, Boss, Worker... {}, {}, {}, {}", ip, port, bossThreadCount, workerThreadCount);
 
 		EventLoopGroup bossGroup = new NioEventLoopGroup(bossThreadCount);
@@ -39,7 +39,7 @@ public class AppHttpServerImpl {
 
 			Channel ch = bootstrap.bind(ip, port).sync().channel();
 			
-			serverHandler.onHttpServerStart();
+			serverHandler.onNettyServerStart();
 			
 			ch.closeFuture().sync();
 		} catch (Exception ex) {

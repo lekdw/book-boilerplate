@@ -1,5 +1,13 @@
 package common;
 
+import common.network.AppNettyServerHandler;
+import common.network.AppNettyServerImpl;
+import common.storage.AppCouchbaseHandler;
+import common.storage.AppCouchbaseImpl;
+import common.storage.AppMySQLHandler;
+import common.storage.AppMySQLImpl;
+import common.storage.AppRedisHandler;
+import common.storage.AppRedisImpl;
 import redis.clients.jedis.JedisPubSub;
 
 public abstract class AppImpl {
@@ -163,7 +171,7 @@ public abstract class AppImpl {
 		}
 		
 		// 어플리케이션이 Http 서버 속성(AppHttpServerHandler 인터페이스)을 갖는다면
-		if (this instanceof AppHttpServerHandler) {
+		if (this instanceof AppNettyServerHandler) {
 			System.out.println("Support http server!");
 			
 			// AppHttpServerImpl.get().start 호출은 스레드를 블록시키기 때문에 별도의
@@ -172,7 +180,7 @@ public abstract class AppImpl {
 				@Override
 				public void run() {
 					// Http 서버를 시작한다.
-					AppHttpServerImpl.get().start((AppHttpServerHandler)theApp,
+					AppNettyServerImpl.get().start((AppNettyServerHandler)theApp,
 							AppConfig.get().info.httpServer.ip,
 							AppConfig.get().info.httpServer.port,
 							AppConfig.get().info.httpServer.bossThread,
@@ -188,7 +196,7 @@ public abstract class AppImpl {
 	}
 
 	public void stop() {
-		AppHttpServerImpl.get().stop();
+		AppNettyServerImpl.get().stop();
 		AppRedisImpl.get().stop();
 		AppMySQLImpl.get().stop();
 		AppCouchbaseImpl.get().stop();

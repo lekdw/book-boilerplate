@@ -5,25 +5,36 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.MapKey;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import org.hibernate.annotations.Index;
 import org.msgpack.annotation.Ignore;
 import org.msgpack.annotation.Message;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-// key의 형식은 "game:채널아이디"를 갖는다. 
+@SuppressWarnings("deprecation")
 @Entity
 @Table(name = "game")
 @Message
 public class Game implements Serializable {
 	private static final long serialVersionUID = 8047627225787560045L;
 
-	// 채널 아이디
 	@Id
+	@GeneratedValue
+	@Ignore
+	@JsonIgnore
+	public long game_id = 0L;
+
+	// 채널 아이디
+	@Index(name="idx_channelId")
 	@Ignore
 	public String channelId = "";
 	
@@ -77,8 +88,10 @@ public class Game implements Serializable {
 	@Ignore
 	public long attendTime = 0L;
 	
-	@Transient
-	public Map<Integer, Stage> stages = new HashMap<Integer, Stage>();
+	// 스테이지 관련
+	@MapKey(name = "stage_id")
+	@OneToMany(mappedBy = "game", cascade = {CascadeType.ALL}, orphanRemoval = true)
+	public Map<Long, Stage> stages = new HashMap<Long, Stage>();
 	
 	// 생성 시간
 	@Ignore

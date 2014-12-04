@@ -1,4 +1,4 @@
-package common;
+package common.storage;
 
 import java.io.IOException;
 import java.net.URI;
@@ -21,6 +21,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import common.AppConfig;
 import common.model.Game;
 
 public class AppCouchbaseImpl {

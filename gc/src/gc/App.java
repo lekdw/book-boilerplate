@@ -1,6 +1,5 @@
 package gc;
 
-import gs.packet.PacketGetConfig.GetConfigRequest;
 import gs.packet.PacketLoadGame.LoadGameRequest;
 
 import java.net.URI;
@@ -14,7 +13,7 @@ import org.apache.commons.pool2.PooledObjectFactory;
 import org.apache.commons.pool2.impl.DefaultPooledObject;
 import org.apache.commons.pool2.impl.GenericObjectPool;
 
-import common.AppHttpClientImpl;
+import common.network.AppNettyClientImpl;
 
 public class App {
 	private static volatile int order = 0;
@@ -25,28 +24,28 @@ public class App {
 		
 		long now = System.currentTimeMillis();
 
-		final GenericObjectPool<AppHttpClientImpl> pool = new GenericObjectPool<AppHttpClientImpl>(new PooledObjectFactory<AppHttpClientImpl>() {
+		final GenericObjectPool<AppNettyClientImpl> pool = new GenericObjectPool<AppNettyClientImpl>(new PooledObjectFactory<AppNettyClientImpl>() {
 			@Override
-			public void activateObject(PooledObject<AppHttpClientImpl> arg0) throws Exception {
+			public void activateObject(PooledObject<AppNettyClientImpl> arg0) throws Exception {
 			}
 
 			@Override
-			public void destroyObject(PooledObject<AppHttpClientImpl> arg0) throws Exception {
+			public void destroyObject(PooledObject<AppNettyClientImpl> arg0) throws Exception {
 			}
 
 			@Override
-			public PooledObject<AppHttpClientImpl> makeObject() throws Exception {
-				AppHttpClientImpl client = new AppHttpClientImpl();
+			public PooledObject<AppNettyClientImpl> makeObject() throws Exception {
+				AppNettyClientImpl client = new AppNettyClientImpl();
 				client.init(HttpClientInitializer.class);
-				return new DefaultPooledObject<AppHttpClientImpl>(client);
+				return new DefaultPooledObject<AppNettyClientImpl>(client);
 			}
 
 			@Override
-			public void passivateObject(PooledObject<AppHttpClientImpl> arg0) throws Exception {
+			public void passivateObject(PooledObject<AppNettyClientImpl> arg0) throws Exception {
 			}
 
 			@Override
-			public boolean validateObject(PooledObject<AppHttpClientImpl> arg0) {
+			public boolean validateObject(PooledObject<AppNettyClientImpl> arg0) {
 				return false;
 			}
 		});
@@ -62,7 +61,7 @@ public class App {
 			request.nickName = "사용자";
 			
 			try {
-				final AppHttpClientImpl client = pool.borrowObject();
+				final AppNettyClientImpl client = pool.borrowObject();
 				
 				try {
 					executor.execute(new Runnable() {

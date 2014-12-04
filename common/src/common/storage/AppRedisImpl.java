@@ -1,4 +1,4 @@
-package common;
+package common.storage;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -8,7 +8,7 @@ import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.JedisPoolConfig;
 import redis.clients.jedis.JedisPubSub;
 import redis.clients.jedis.exceptions.JedisConnectionException;
-
+import common.AppConfig;
 import common.AppConfig.Info.NodeInfo;
 
 public class AppRedisImpl {

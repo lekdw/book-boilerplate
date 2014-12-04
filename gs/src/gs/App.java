@@ -1,13 +1,13 @@
 package gs;
 
 import io.netty.channel.ChannelHandler;
-import common.AppCouchbaseHandler;
-import common.AppHttpServerHandler;
 import common.AppImpl;
-import common.AppMySQLHandler;
-import common.AppRedisHandler;
+import common.network.AppNettyServerHandler;
+import common.storage.AppCouchbaseHandler;
+import common.storage.AppMySQLHandler;
+import common.storage.AppRedisHandler;
 
-public class App extends AppImpl implements AppCouchbaseHandler, AppMySQLHandler, AppRedisHandler, AppHttpServerHandler {
+public class App extends AppImpl implements AppCouchbaseHandler, AppMySQLHandler, AppRedisHandler, AppNettyServerHandler {
 	private static final App theApp = new App();
 	
 	//
@@ -68,15 +68,15 @@ public class App extends AppImpl implements AppCouchbaseHandler, AppMySQLHandler
 	}
 
 	@Override
-	public void onHttpServerStart() {
+	public void onNettyServerStart() {
 	}
 
 	@Override
-	public void onHttpServerStop() {
+	public void onNettyServerStop() {
 	}
 
 	@Override
-	public void onHttpServerError() {
+	public void onNettyServerError() {
 	}
 	
 	public static void main(String[] args) {

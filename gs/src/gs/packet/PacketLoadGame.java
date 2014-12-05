@@ -16,6 +16,7 @@ import org.msgpack.annotation.Message;
 import common.model.Game;
 import common.model.Mail;
 import common.model.Share;
+import common.model.Stage;
 import common.storage.AppCouchbaseImpl;
 
 public class PacketLoadGame extends PacketBase {
@@ -32,7 +33,6 @@ public class PacketLoadGame extends PacketBase {
 		public int result = 0;
 		public long now = 0L;
 		public Game game = null;
-		public Share share = null;
 		public Map<Long, Mail> mails = new HashMap<Long, Mail>();
 	}
 
@@ -64,10 +64,18 @@ public class PacketLoadGame extends PacketBase {
 			game.selStageId = 0;
 			game.loadDate = new Date(now);
 			game.createDate = new Date(now);
-
+			
+			Stage stage = new Stage();
+			stage.stageId = 1;
+			stage.topScore = 0;
+			
+			game.stages.put((long)stage.stageId, stage);
+			
 			AppCouchbaseImpl.get().setGame(request.channelId, game);
 		} else {
 		}
+		
+		response.game = game;
 
 		response.result = RESULT_LOAD_GAME_OK;
 		response.now = System.currentTimeMillis();

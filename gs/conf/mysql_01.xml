@@ -11,7 +11,7 @@
 		<property name="connection.provider_class">org.hibernate.service.jdbc.connections.internal.C3P0ConnectionProvider</property>
 		<property name="connection.url">jdbc:mysql://127.0.0.1/gs_01</property>
 		<property name="connection.username">root</property>
-		<property name="connection.password">qwer1234</property>
+		<property name="connection.password"></property>
 
 		<property name="hibernate.c3p0.acquire_increment">1</property>
 		<property name="hibernate.c3p0.max_statements">0</property>
@@ -47,6 +47,7 @@
 		<property name="current_session_context_class">thread</property>
 		
 		<mapping class="common.model.Game"/>
+		<mapping class="common.model.Item"/>
 		<mapping class="common.model.Stage"/>
 	</session-factory>
 </hibernate-configuration>

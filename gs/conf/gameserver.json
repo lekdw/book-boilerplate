@@ -4,9 +4,9 @@
 		"name":"book-gs1",
 		"version":"0.0.1"
 	},
-	"httpServer":{
+	"netty":{
 		"ip":"127.0.0.1",
-		"port":1005,
+		"port":88,
 		"bossThread":4,
 		"workerThread":20,
 		"readTimeout":5

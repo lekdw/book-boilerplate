@@ -181,10 +181,10 @@ public abstract class AppImpl {
 				public void run() {
 					// Http 서버를 시작한다.
 					AppNettyServerImpl.get().start((AppNettyServerHandler)theApp,
-							AppConfig.get().info.httpServer.ip,
-							AppConfig.get().info.httpServer.port,
-							AppConfig.get().info.httpServer.bossThread,
-							AppConfig.get().info.httpServer.workerThread);
+							AppConfig.get().info.netty.ip,
+							AppConfig.get().info.netty.port,
+							AppConfig.get().info.netty.bossThread,
+							AppConfig.get().info.netty.workerThread);
 				}
 			}, "HttpServerThread").start();
 		}

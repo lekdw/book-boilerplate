@@ -40,7 +40,7 @@ public class AppConfig {
 		}
 
 		@Message
-		static public class HttpServerInfo {
+		static public class NettyInfo {
 			public String ip = null;
 			public int port = 0;
 			public int bossThread = 0;
@@ -72,7 +72,7 @@ public class AppConfig {
 		}
 		
 		public AppInfo app = null;
-		public HttpServerInfo httpServer = null;
+		public NettyInfo netty = null;
 		public CouchbaseInfo couchbase = null;
 		public MySQLInfo mysql = null;
 		public RedisInfo redis = null;

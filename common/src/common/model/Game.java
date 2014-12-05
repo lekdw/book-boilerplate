@@ -88,6 +88,11 @@ public class Game implements Serializable {
 	@Ignore
 	public long attendTime = 0L;
 	
+	// 사용 아이템
+	@MapKey(name = "item_id")
+	@OneToMany(mappedBy = "game", cascade = {CascadeType.ALL}, orphanRemoval = true)
+	public Map<Long, Item> items = new HashMap<Long, Item>();
+	
 	// 스테이지 관련
 	@MapKey(name = "stage_id")
 	@OneToMany(mappedBy = "game", cascade = {CascadeType.ALL}, orphanRemoval = true)

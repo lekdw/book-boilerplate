@@ -21,7 +21,6 @@
 	<classpathentry kind="lib" path="lib/javassist-3.18.1-GA.jar"/>
 	<classpathentry kind="lib" path="lib/antlr-2.7.7.jar"/>
 	<classpathentry kind="lib" path="lib/c3p0-0.9.2.1.jar"/>
-	<classpathentry kind="lib" path="lib/common.jar"/>
 	<classpathentry kind="lib" path="lib/dom4j-1.6.1.jar"/>
 	<classpathentry kind="lib" path="lib/hibernate-c3p0-4.3.5.Final.jar"/>
 	<classpathentry kind="lib" path="lib/hibernate-commons-annotations-4.0.4.Final.jar"/>

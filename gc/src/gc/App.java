@@ -69,7 +69,7 @@ public class App {
 							System.out.printf("%d, %d, %d\n", order++, pool.getCreatedCount(), pool.getNumActive());
 		
 							try {
-								client.request(new URI("http://127.0.0.1:1005/loadgame"), request.create());
+								client.request(new URI("http://127.0.0.1:8888/loadgame"), request.create());
 							} catch (URISyntaxException e) {
 								e.printStackTrace();
 							} finally {

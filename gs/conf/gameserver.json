@@ -6,7 +6,7 @@
 	},
 	"netty":{
 		"ip":"127.0.0.1",
-		"port":88,
+		"port":8888,
 		"bossThread":4,
 		"workerThread":20,
 		"readTimeout":5
